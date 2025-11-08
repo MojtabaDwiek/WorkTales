@@ -35,16 +35,23 @@ function locomotive() {
   });
   ScrollTrigger.addEventListener("refresh", () => locoScroll.update());
   ScrollTrigger.refresh();
+
+  // Store locoScroll instance globally for navigation
+  window.locoScroll = locoScroll;
+  
+  return locoScroll;
 }
-locomotive();
+
+// Initialize Locomotive Scroll
+const locoScrollInstance = locomotive();
 
 const canvas = document.querySelector("canvas");
 const context = canvas.getContext("2d");
 
-// Responsive canvas setup - same logic for all devices
+// Responsive canvas setup
 function setupCanvas() {
   canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight; // Same height for all devices
+  canvas.height = window.innerHeight;
 }
 
 setupCanvas();
@@ -256,106 +263,6 @@ function files(index) {
      ./image/male0198.png
      ./image/male0199.png
      ./image/male0200.png
-     ./image/male0201.png
-     ./image/male0202.png
-     ./image/male0203.png
-     ./image/male0204.png
-     ./image/male0205.png
-     ./image/male0206.png
-     ./image/male0207.png
-     ./image/male0208.png
-     ./image/male0209.png
-     ./image/male0210.png
-     ./image/male0211.png
-     ./image/male0212.png
-     ./image/male0213.png
-     ./image/male0214.png
-     ./image/male0215.png
-     ./image/male0216.png
-     ./image/male0217.png
-     ./image/male0218.png
-     ./image/male0219.png
-     ./image/male0220.png
-     ./image/male0221.png
-     ./image/male0222.png
-     ./image/male0223.png
-     ./image/male0224.png
-     ./image/male0225.png
-     ./image/male0226.png
-     ./image/male0227.png
-     ./image/male0228.png
-     ./image/male0229.png
-     ./image/male0230.png
-     ./image/male0231.png
-     ./image/male0232.png
-     ./image/male0233.png
-     ./image/male0234.png
-     ./image/male0235.png
-     ./image/male0236.png
-     ./image/male0237.png
-     ./image/male0238.png
-     ./image/male0239.png
-     ./image/male0240.png
-     ./image/male0241.png
-     ./image/male0242.png
-     ./image/male0243.png
-     ./image/male0244.png
-     ./image/male0245.png
-     ./image/male0246.png
-     ./image/male0247.png
-     ./image/male0248.png
-     ./image/male0249.png
-     ./image/male0250.png
-     ./image/male0251.png
-     ./image/male0252.png
-     ./image/male0253.png
-     ./image/male0254.png
-     ./image/male0255.png
-     ./image/male0256.png
-     ./image/male0257.png
-     ./image/male0258.png
-     ./image/male0259.png
-     ./image/male0260.png
-     ./image/male0261.png
-     ./image/male0262.png
-     ./image/male0263.png
-     ./image/male0264.png
-     ./image/male0265.png
-     ./image/male0266.png
-     ./image/male0267.png
-     ./image/male0268.png
-     ./image/male0269.png
-     ./image/male0270.png
-     ./image/male0271.png
-     ./image/male0272.png
-     ./image/male0273.png
-     ./image/male0274.png
-     ./image/male0275.png
-     ./image/male0276.png
-     ./image/male0277.png
-     ./image/male0278.png
-     ./image/male0279.png
-     ./image/male0280.png
-     ./image/male0281.png
-     ./image/male0282.png
-     ./image/male0283.png
-     ./image/male0284.png
-     ./image/male0285.png
-     ./image/male0286.png
-     ./image/male0287.png
-     ./image/male0288.png
-     ./image/male0289.png
-     ./image/male0290.png
-     ./image/male0291.png
-     ./image/male0292.png
-     ./image/male0293.png
-     ./image/male0294.png
-     ./image/male0295.png
-     ./image/male0296.png
-     ./image/male0297.png
-     ./image/male0298.png
-     ./image/male0299.png
-     ./image/male0300.png
  `;
   return data.split("\n")[index];
 }
@@ -373,16 +280,16 @@ for (let i = 0; i < frameCount; i++) {
   images.push(img);
 }
 
-// Consistent scroll trigger settings for all devices
+// Scroll trigger for animation
 gsap.to(imageSeq, {
   frame: frameCount - 1,
   snap: "frame",
   ease: `none`,
   scrollTrigger: {
-    scrub: 0.15, // Same scrub speed for all devices
+    scrub: 0.15,
     trigger: `#page>canvas`,
     start: `top top`,
-    end: `600% top`, // Same scroll distance for all devices
+    end: `600% top`,
     scroller: `#main`,
     markers: false
   },
@@ -416,13 +323,13 @@ function scaleImage(img, ctx) {
   );
 }
 
-// Canvas pinning with same settings for all devices
+// Canvas pinning
 ScrollTrigger.create({
   trigger: "#page>canvas",
   pin: true,
   scroller: `#main`,
   start: `top top`,
-  end: `600% top`, // Same end point for all devices
+  end: `600% top`,
 });
 
 // Mobile menu functionality
@@ -437,9 +344,18 @@ if (mobileMenuBtn && mobileNavLinks) {
 
   // Close mobile menu when clicking on a link
   mobileNavLinks.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', function() {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
       mobileMenuBtn.classList.remove('active');
       mobileNavLinks.classList.remove('active');
+      
+      // Handle navigation for mobile links
+      const targetId = this.getAttribute('href');
+      const targetSection = document.querySelector(targetId);
+      
+      if (targetSection && window.locoScroll) {
+        window.locoScroll.scrollTo(targetSection);
+      }
     });
   });
 }
@@ -453,41 +369,33 @@ document.getElementById('talent-btn').addEventListener('click', function() {
   alert('Join our talent network! Please email your resume to talent@worktales.com');
 });
 
-// Navigation smooth scrolling
+// FIXED: Navigation smooth scrolling - Prevent default and use Locomotive Scroll
 document.querySelectorAll('#nav-links a, #mobile-nav-links a').forEach(link => {
   link.addEventListener('click', function(e) {
-    e.preventDefault();
+    e.preventDefault(); // This prevents page reload
     const targetId = this.getAttribute('href');
     const targetSection = document.querySelector(targetId);
     
-    if (targetSection) {
-      // Use Locomotive Scroll to smoothly scroll to the section
-      const scroll = new LocomotiveScroll({
-        el: document.querySelector("#main"),
-        smooth: true
-      });
-      
-      scroll.scrollTo(targetSection);
+    if (targetSection && window.locoScroll) {
+      // Use the existing Locomotive Scroll instance to scroll to target
+      window.locoScroll.scrollTo(targetSection);
     }
   });
 });
 
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
-  locomotive();
   setupCanvas();
   optimizePerformance();
 });
 
-// Performance optimization for all devices
+// Performance optimization
 function optimizePerformance() {
-  // Consistent performance settings for all devices
   gsap.config({
-    force3D: true, // Same 3D setting for all devices
+    force3D: true,
     autoSleep: 60
   });
   
-  // Throttle scroll events for all devices
   let scrollTimeout;
   window.addEventListener('scroll', () => {
     if (!scrollTimeout) {
@@ -499,7 +407,7 @@ function optimizePerformance() {
   }, { passive: true });
 }
 
-// Handle orientation changes for all devices
+// Handle orientation changes
 let orientationTimeout;
 window.addEventListener('orientationchange', function() {
   clearTimeout(orientationTimeout);
@@ -507,13 +415,16 @@ window.addEventListener('orientationchange', function() {
     setupCanvas();
     render();
     ScrollTrigger.refresh();
+    if (window.locoScroll) {
+      window.locoScroll.update();
+    }
   }, 500);
 });
 
-// Touch enhancements for all devices (not just mobile)
+// Touch enhancements
 document.addEventListener('touchstart', function() {}, { passive: true });
 
-// Prevent zoom on double tap for all touch devices
+// Prevent zoom on double tap
 let lastTap = 0;
 document.addEventListener('touchend', function(e) {
   const currentTime = new Date().getTime();
@@ -522,4 +433,69 @@ document.addEventListener('touchend', function(e) {
     e.preventDefault();
   }
   lastTap = currentTime;
+});
+
+// Function to check if element is in viewport
+function isInViewport(element) {
+    const rect = element.getBoundingClientRect();
+    return (
+        rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.8
+    );
+}
+
+// Function to handle scroll and show pages
+function handleScrollAnimation() {
+    const additionalPages = document.querySelectorAll('.additional-page');
+    
+    additionalPages.forEach(page => {
+        if (isInViewport(page)) {
+            page.classList.add('visible');
+        }
+    });
+}
+
+// Initialize scroll animations
+document.addEventListener('DOMContentLoaded', function() {
+    // Add scroll event listener
+    window.addEventListener('scroll', handleScrollAnimation);
+    
+    // Initial check on page load
+    handleScrollAnimation();
+    
+    // If using Locomotive Scroll, use its scroll event
+    if (window.locoScroll) {
+        window.locoScroll.on('scroll', (args) => {
+            handleScrollAnimation();
+        });
+    }
+    
+    // ScrollTrigger animations for additional pages
+    if (typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.create({
+            trigger: "#page4",
+            start: "top 80%",
+            onEnter: () => {
+                document.querySelector('#page4').classList.add('visible');
+            },
+            scroller: '#main'
+        });
+        
+        ScrollTrigger.create({
+            trigger: "#page5",
+            start: "top 80%",
+            onEnter: () => {
+                document.querySelector('#page5').classList.add('visible');
+            },
+            scroller: '#main'
+        });
+        
+        ScrollTrigger.create({
+            trigger: "#page6",
+            start: "top 80%",
+            onEnter: () => {
+                document.querySelector('#page6').classList.add('visible');
+            },
+            scroller: '#main'
+        });
+    }
 });

@@ -36,6 +36,24 @@ html,body{
     width: 100vw;
     background-color: #f1f1f1;
 }
+#page4{
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    background-color: #f1f1f1;
+}
+#page5{
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    background-color: #f1f1f1;
+}
+#page6{
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    background-color: #f1f1f1;
+}
 #contact{
     position: relative;
     height: 100vh;
@@ -238,6 +256,34 @@ canvas{
     color: #fff;
 }
 
+/* Additional Pages Styles */
+#page4, #page5, #page6 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.page-content {
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+.page-content h1 {
+    font-size: 4rem;
+    margin-bottom: 40px;
+    font-weight: 700;
+    color: #000;
+}
+
+.page-content p {
+    font-size: 1.3rem;
+    line-height: 1.7;
+    margin-bottom: 25px;
+    color: #7c7c7c;
+    font-weight: 300;
+}
+
 /* Mobile Hamburger Menu */
 #mobile-menu-btn {
     display: none;
@@ -307,7 +353,6 @@ canvas{
 
 /* Mobile Responsive Styles */
 @media (max-width: 768px) {
-    /* Hide desktop nav links, show mobile menu button */
     #nav-links {
         display: none;
     }
@@ -316,7 +361,6 @@ canvas{
         display: flex;
     }
     
-    /* All text elements with high z-index */
     #loop {
         font-size: 40px;
         top: 25%;
@@ -478,7 +522,16 @@ canvas{
     canvas {
         max-width: auto;
         height: auto;
-        z-index: 5; /* Lower than text */
+        z-index: 5;
+    }
+    
+    /* Additional pages mobile */
+    .page-content h1 {
+        font-size: 2.5rem;
+    }
+    
+    .page-content p {
+        font-size: 1.1rem;
     }
 }
 
@@ -522,10 +575,24 @@ canvas{
     }
     
     canvas {
-        z-index: 5; /* Keep canvas behind all text */
+        z-index: 5;
     }
     
     #mobile-nav-links a {
         font-size: 20px;
     }
+    
+    /* Additional pages small mobile */
+    .page-content h1 {
+        font-size: 2rem;
+    }
+    
+    .page-content p {
+        font-size: 1rem;
+    }
+}
+
+/* Smooth scroll behavior */
+html {
+    scroll-behavior: smooth;
 }
