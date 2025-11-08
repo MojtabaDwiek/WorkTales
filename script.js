@@ -499,3 +499,87 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+const cards = [
+    document.getElementById('card1'),
+    document.getElementById('card2'),
+    document.getElementById('card3'),
+    document.getElementById('card4')
+];
+
+function initSimpleScroll() {
+    if (!cards[0] || !ScrollTrigger) return;
+    
+    cards.forEach((card, index) => {
+        ScrollTrigger.create({
+            trigger: card,
+            start: "top 20%", // When card is 80% from top
+            end: "bottom bottom",
+            scroller: "#main",
+            markers: false,
+            onEnter: () => {
+                // Simple fade out and collapse
+                gsap.to(card, {
+                    duration: 0.5,
+                    height: '2vh',
+                    ease: "power2.out",
+                    onComplete: () => {
+                        card.classList.add('collapsed');
+                        card.classList.remove('expanded');
+                        card.style.zIndex = (400 - (index * 100)).toString();
+                    }
+                });
+                
+                // Fade out text
+                gsap.to(card.querySelector('h2'), {
+                    duration: 0.3,
+                    opacity: 0,
+                    ease: "power2.out"
+                });
+            },
+            onLeaveBack: () => {
+                // Simple expand back
+                card.classList.add('expanded');
+                card.classList.remove('collapsed');
+                card.style.zIndex = '';
+                
+                gsap.to(card, {
+                    duration: 0.5,
+                    height: '30vh',
+                    ease: "power2.out"
+                });
+                
+                // Fade in text
+                gsap.to(card.querySelector('h2'), {
+                    duration: 0.3,
+                    opacity: 1,
+                    ease: "power2.out"
+                });
+            }
+        });
+    });
+}
+
+// Initialize cards
+function initCards() {
+    cards.forEach(card => {
+        if (card) {
+            card.classList.add('expanded');
+            card.classList.remove('collapsed');
+            card.style.zIndex = '';
+        }
+    });
+}
+
+// Initialize when ready
+document.addEventListener('DOMContentLoaded', function() {
+    initCards();
+    
+    setTimeout(() => {
+        initSimpleScroll();
+    }, 1000);
+});
+
+// Handle resize
+window.addEventListener('resize', function() {
+    if (ScrollTrigger) ScrollTrigger.refresh();
+});

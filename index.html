@@ -9,30 +9,31 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.css">
 </head>
 <body>
-    <div id="nav">
-        <h3><b>WORK</b>TALES</h3>
-        <div id="nav-links">
-            <a href="#page">Home</a>
-            <a href="#page4">Our Process</a>
-            <a href="#page5">Success Stories</a>
-            <a href="#page6">Resources</a>
-        </div>
-        <button id="mobile-menu-btn">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-    </div>
-    <div id="mobile-nav-links">
-        <a href="#page">Home</a>
-        <a href="#page4">Our Process</a>
-        <a href="#page5">Success Stories</a>
-        <a href="#page6">Resources</a>
-    </div>
-
     <!-- Main Container with ALL pages inside Locomotive Scroll -->
     <div id="main">
         <div id="page">
+            <!-- Navigation now integrated as part of the first page -->
+            <div id="nav" class="page-nav">
+                <h3><b>WORK</b>TALES</h3>
+                <div id="nav-links">
+                    <a href="#page">Home</a>
+                    <a href="#page4">Our Process</a>
+                    <a href="#page5">Success Stories</a>
+                    <a href="#page6">Resources</a>
+                </div>
+                <button id="mobile-menu-btn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <div id="mobile-nav-links">
+                <a href="#page">Home</a>
+                <a href="#page4">Our Process</a>
+                <a href="#page5">Success Stories</a>
+                <a href="#page6">Resources</a>
+            </div>
+
             <div id="loop">
                 <h1>&nbsp;&nbsp;&nbsp;&nbsp;<b>THE</b> NEXT <b><i>CHAPTER</i></b> <span>IS HERE</span></h1>
                 <h1>&nbsp;&nbsp;&nbsp;&nbsp;<b>THE</b> NEXT <b><i>CHAPTER</i></b> <span>IS HERE</span></h1>
@@ -99,6 +100,30 @@
                 </div>
             </div>
         </div>
+        <div class="container">
+        <ul id="cards">
+            <li class="card" id="card1">
+                <div class="card-body">
+                    <h2>Card 1</h2>
+                </div>
+            </li>
+            <li class="card" id="card2">
+                <div class="card-body">
+                    <h2>Card 2</h2>
+                </div>
+            </li>
+            <li class="card" id="card3">
+                <div class="card-body">
+                    <h2>Card 3</h2>
+                </div>
+            </li>
+            <li class="card" id="card4">
+                <div class="card-body">
+                    <h2>Card 4</h2>
+                </div>
+            </li>
+        </ul>
+    </div>
 
         <!-- Additional Pages NOW INSIDE the main container -->
         <div id="page4" class="additional-page">
@@ -130,5 +155,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js" integrity="sha512-cOH8ndwGgPo+K7pTvMrqYbmI8u8k6Sho3js0gOqVWTmQMlLIi6TbqGWRTpf1ga8ci9H3iPsvDLr4X7xwhC/+DQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js" integrity="sha512-AMl4wfwAmDM1lsQvVBBRHYENn1FR8cfOTpt8QVbb/P55mYOdahHD4LmHM1W55pNe3j/3od8ELzPf/8eNkkjISQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="script.js"></script>
+
 </body>
 </html>
