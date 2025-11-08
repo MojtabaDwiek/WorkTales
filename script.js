@@ -425,52 +425,58 @@ ScrollTrigger.create({
   end: `600% top`, // Same end point for all devices
 });
 
-// Initialize animations for all devices
-function initAnimations() {
-  // Animate mobile images if they exist
-  const mobileImages = document.querySelectorAll('.mobile-img');
-  if (mobileImages.length > 0) {
-    gsap.utils.toArray('.mobile-img').forEach((img, i) => {
-      gsap.fromTo(img,
-        {
-          opacity: 0,
-          scale: 0.8,
-          y: 30
-        },
-        {
-          opacity: 1,
-          scale: 1,
-          y: 0,
-          duration: 0.6,
-          delay: i * 0.1,
-          scrollTrigger: {
-            trigger: img,
-            start: "top 85%",
-            toggleActions: "play none none reverse",
-            scroller: `#main`
-          }
-        }
-      );
+// Mobile menu functionality
+const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+const mobileNavLinks = document.getElementById('mobile-nav-links');
+
+if (mobileMenuBtn && mobileNavLinks) {
+  mobileMenuBtn.addEventListener('click', function() {
+    this.classList.toggle('active');
+    mobileNavLinks.classList.toggle('active');
+  });
+
+  // Close mobile menu when clicking on a link
+  mobileNavLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', function() {
+      mobileMenuBtn.classList.remove('active');
+      mobileNavLinks.classList.remove('active');
     });
-  }
+  });
 }
 
-// Initialize animations after a short delay
-setTimeout(initAnimations, 1000);
+// Contact button functionality
+document.getElementById('employer-btn').addEventListener('click', function() {
+  alert('Thank you for your interest! Please contact us at employers@worktales.com');
+});
 
-// Consistent page pinning for all devices
-[1, 2, 3].forEach(pageNum => {
-  gsap.to(`#page${pageNum}`, {
-    scrollTrigger: {
-      trigger: `#page${pageNum}`,
-      start: `top top`,
-      end: `bottom top`,
-      pin: true,
-      scroller: `#main`,
-      pinSpacing: true, // Same pin spacing for all devices
-      anticipatePin: 1
+document.getElementById('talent-btn').addEventListener('click', function() {
+  alert('Join our talent network! Please email your resume to talent@worktales.com');
+});
+
+// Navigation smooth scrolling
+document.querySelectorAll('#nav-links a, #mobile-nav-links a').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    const targetId = this.getAttribute('href');
+    const targetSection = document.querySelector(targetId);
+    
+    if (targetSection) {
+      // Use Locomotive Scroll to smoothly scroll to the section
+      const scroll = new LocomotiveScroll({
+        el: document.querySelector("#main"),
+        smooth: true
+      });
+      
+      scroll.scrollTo(targetSection);
     }
   });
+});
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+  locomotive();
+  setupCanvas();
+  optimizePerformance();
 });
 
 // Performance optimization for all devices
@@ -493,8 +499,6 @@ function optimizePerformance() {
   }, { passive: true });
 }
 
-optimizePerformance();
-
 // Handle orientation changes for all devices
 let orientationTimeout;
 window.addEventListener('orientationchange', function() {
@@ -503,7 +507,6 @@ window.addEventListener('orientationchange', function() {
     setupCanvas();
     render();
     ScrollTrigger.refresh();
-    initAnimations();
   }, 500);
 });
 
@@ -519,41 +522,4 @@ document.addEventListener('touchend', function(e) {
     e.preventDefault();
   }
   lastTap = currentTime;
-});
-
-// Lazy loading for all devices
-if ('IntersectionObserver' in window) {
-  const imageObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const img = entry.target;
-        img.src = img.dataset.src;
-        imageObserver.unobserve(img);
-      }
-    });
-  });
-
-  // Observe images for lazy loading on all devices
-  document.querySelectorAll('.mobile-img').forEach(img => {
-    imageObserver.observe(img);
-  });
-}
-
-// Consistent scroll behavior for all devices
-function initSmoothScrolling() {
-  // Ensure smooth scrolling works consistently
-  const scroll = new LocomotiveScroll({
-    el: document.querySelector("#main"),
-    smooth: true,
-    multiplier: 1, // Same multiplier for all devices
-    class: 'is-revealed'
-  });
-}
-
-// Initialize everything when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-  locomotive();
-  setupCanvas();
-  initAnimations();
-  optimizePerformance();
 });
