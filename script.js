@@ -267,7 +267,7 @@ function files(index) {
   return data.split("\n")[index];
 }
 
-const frameCount = 300;
+const frameCount = 200;
 
 const images = [];
 const imageSeq = {
@@ -523,7 +523,7 @@ function initScrollDrivenHorizontal() {
                 start: "top bottom", // Start animating when card enters bottom
                 end: "center center", // Finish lining up when card reaches center
                 scroller: "#main",
-                scrub: 1,
+                scrub: 0.5,
                 markers: false
             }
         });
@@ -550,7 +550,8 @@ function initContinuousScroll() {
     
     cards.forEach((card, index) => {
         const fromRight = index % 2 === 0;
-        const slideFrom = fromRight ? 100 : -100;
+        const slideFrom = fromRight ? 800 : -400; // Increased from 100 to 200
+        const slideTo = fromRight ? -400 : 800; // Increased from 100 to 200
         
         ScrollTrigger.create({
             trigger: card,
@@ -558,7 +559,7 @@ function initContinuousScroll() {
             end: "bottom top", // When card leaves from top
             scroller: "#main",
             markers: false,
-            scrub: 1,
+            scrub: 0.3, // Changed from 1 to 0.3 for faster animation
             onUpdate: (self) => {
                 const progress = self.progress;
                 

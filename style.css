@@ -140,7 +140,7 @@ canvas{
     font-family: gilroy;
     font-weight: 400;
     color: #000000;
-    left: 5%;
+    left: 1%;
 }
 #page>h4{
     position: absolute;
@@ -192,12 +192,13 @@ canvas{
 #page2>#text2{
     position: absolute;
     top: 55%;
-    right: 10%;
+    right: 1%;
     text-align: end;
 }
 #page2>#text2>p{
     color: #7c7c7c;
     font-weight: 400;
+    font-size: 18px;
 }
 #page3>#text3{
     position: absolute;
@@ -216,7 +217,7 @@ canvas{
 #page3>#text4{
     position: absolute;
     top: 60%;
-    left: 10%;
+    left: 1%;
     text-align: start;
 }
 #page3>#text4>p{
@@ -264,13 +265,15 @@ canvas{
 #page4, #page5, #page6 {
     display: flex;
     align-items: center;
-    justify-content: center;
-    text-align: center;
+    justify-content: left;
+    text-align: left;
+    
 }
 
 .page-content {
     max-width: 800px;
     padding: 0 20px;
+     z-index: 20;
 }
 
 .page-content h1 {
@@ -604,6 +607,7 @@ html {
 :root {
     --cardHeight: 30vh;
     --collapsedHeight: 2vh;
+    --cardWidth: 30%; /* 25% of container width */
 }
 
 body {
@@ -628,14 +632,25 @@ body {
 }
 
 .card {
-    width: 100%;
+    width: var(--cardWidth); /* 25% width */
     height: var(--cardHeight);
     position: absolute;
     top: 0;
+}
+
+/* Position cards 1 and 3 on left */
+#card1.expanded, 
+#card3.expanded { 
+    right: 0;
+}
+
+/* Position cards 2 and 4 on right */
+#card2.expanded, 
+#card4.expanded { 
     left: 0;
 }
 
-/* Define positions for expanded cards */
+/* Define vertical positions for expanded cards */
 #card1.expanded { top: 0; }
 #card2.expanded { top: var(--cardHeight); }
 #card3.expanded { top: calc(var(--cardHeight) * 2); }
@@ -644,18 +659,20 @@ body {
 /* Collapsed state */
 .card.collapsed {
     height: var(--collapsedHeight);
+    width: var(--cardWidth); /* Maintain 25% width when collapsed */
 }
 
 /* Individual card z-index */
-#card1.collapsed { z-index: 400; }
-#card2.collapsed { z-index: 300; }
-#card3.collapsed { z-index: 200; }
-#card4.collapsed { z-index: 100; }
+#card1.collapsed { z-index: 400; left: 0; }
+#card2.collapsed { z-index: 300; right: 0; }
+#card3.collapsed { z-index: 200; left: 0; }
+#card4.collapsed { z-index: 100; right: 0; }
 
 .card-body {
     border-radius: 0;
     box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
     height: 100%;
+    width: 100%; /* Fill the card width */
     display: flex;
     justify-content: center;
     align-items: center;
