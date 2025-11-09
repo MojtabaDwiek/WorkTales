@@ -506,66 +506,98 @@ const cards = [
     document.getElementById('card4')
 ];
 
-function initSimpleScroll() {
+function initScrollDrivenHorizontal() {
     if (!cards[0] || !ScrollTrigger) return;
     
     cards.forEach((card, index) => {
-        ScrollTrigger.create({
-            trigger: card,
-            start: "top 20%", // When card is 80% from top
-            end: "bottom bottom",
-            scroller: "#main",
-            markers: false,
-            onEnter: () => {
-                // Simple fade out and collapse
-                gsap.to(card, {
-                    duration: 0.5,
-                    height: '2vh',
-                    ease: "power2.out",
-                    onComplete: () => {
-                        card.classList.add('collapsed');
-                        card.classList.remove('expanded');
-                        card.style.zIndex = (400 - (index * 100)).toString();
-                    }
-                });
-                
-                // Fade out text
-                gsap.to(card.querySelector('h2'), {
-                    duration: 0.3,
-                    opacity: 0,
-                    ease: "power2.out"
-                });
-            },
-            onLeaveBack: () => {
-                // Simple expand back
-                card.classList.add('expanded');
-                card.classList.remove('collapsed');
-                card.style.zIndex = '';
-                
-                gsap.to(card, {
-                    duration: 0.5,
-                    height: '30vh',
-                    ease: "power2.out"
-                });
-                
-                // Fade in text
-                gsap.to(card.querySelector('h2'), {
-                    duration: 0.3,
-                    opacity: 1,
-                    ease: "power2.out"
-                });
+        // Alternate directions: even from right, odd from left
+        const fromRight = index % 2 === 0;
+        const slideFrom = fromRight ? 100 : -100;
+        
+        // Create scroll-driven animation
+        gsap.to(card, {
+            x: 0, // Line up in middle
+            ease: "none",
+            scrollTrigger: {
+                trigger: card,
+                start: "top bottom", // Start animating when card enters bottom
+                end: "center center", // Finish lining up when card reaches center
+                scroller: "#main",
+                scrub: 1,
+                markers: false
+            }
+        });
+        
+        // Continue scrolling out after lining up
+        gsap.to(card, {
+            x: fromRight ? -100 : 100, // Continue to opposite side
+            ease: "none",
+            scrollTrigger: {
+                trigger: card,
+                start: "center center", // Start moving out from center
+                end: "bottom top", // Complete when leaving top
+                scroller: "#main",
+                scrub: 1,
+                markers: false
             }
         });
     });
 }
 
-// Initialize cards
+// Alternative: Single continuous animation
+function initContinuousScroll() {
+    if (!cards[0] || !ScrollTrigger) return;
+    
+    cards.forEach((card, index) => {
+        const fromRight = index % 2 === 0;
+        const slideFrom = fromRight ? 100 : -100;
+        
+        ScrollTrigger.create({
+            trigger: card,
+            start: "top bottom", // When card enters from bottom
+            end: "bottom top", // When card leaves from top
+            scroller: "#main",
+            markers: false,
+            scrub: 1,
+            onUpdate: (self) => {
+                const progress = self.progress;
+                
+                if (progress <= 0.5) {
+                    // First half: Move to center (0 to 0.5 progress)
+                    const centerProgress = progress * 2; // Convert to 0-1 range
+                    gsap.to(card, {
+                        x: slideFrom * (1 - centerProgress),
+                        duration: 0,
+                        overwrite: true
+                    });
+                } else {
+                    // Second half: Move out from center (0.5 to 1 progress)
+                    const outProgress = (progress - 0.5) * 2; // Convert to 0-1 range
+                    const slideTo = fromRight ? -100 : 100;
+                    gsap.to(card, {
+                        x: slideTo * outProgress,
+                        duration: 0,
+                        overwrite: true
+                    });
+                }
+            }
+        });
+    });
+}
+
+// Initialize cards with horizontal starting positions
 function initCards() {
-    cards.forEach(card => {
+    cards.forEach((card, index) => {
         if (card) {
             card.classList.add('expanded');
             card.classList.remove('collapsed');
-            card.style.zIndex = '';
+            
+            // Set initial horizontal positions
+            const fromRight = index % 2 === 0;
+            const slideFrom = fromRight ? 100 : -100;
+            gsap.set(card, {
+                x: slideFrom
+            });
         }
     });
 }
@@ -573,10 +605,7 @@ function initCards() {
 // Initialize when ready
 document.addEventListener('DOMContentLoaded', function() {
     initCards();
-    
-    setTimeout(() => {
-        initSimpleScroll();
-    }, 1000);
+    initContinuousScroll(); // Use this for smooth continuous motion
 });
 
 // Handle resize
