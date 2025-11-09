@@ -613,3 +613,60 @@ document.addEventListener('DOMContentLoaded', function() {
 window.addEventListener('resize', function() {
     if (ScrollTrigger) ScrollTrigger.refresh();
 });
+
+// Accordion functionality
+function initAccordion() {
+    const accordionItems = document.querySelectorAll('.value__accordion-item');
+    
+    accordionItems.forEach(item => {
+        const header = item.querySelector('.value__accordion-header');
+        
+        header.addEventListener('click', () => {
+            // Close all other accordion items
+            accordionItems.forEach(otherItem => {
+                if (otherItem !== item) {
+                    otherItem.classList.remove('accordion-open');
+                    const otherContent = otherItem.querySelector('.value__accordion-content');
+                    otherContent.style.height = '0';
+                }
+            });
+            
+            // Toggle current item
+            const isOpen = item.classList.contains('accordion-open');
+            const content = item.querySelector('.value__accordion-content');
+            
+            if (isOpen) {
+                item.classList.remove('accordion-open');
+                content.style.height = '0';
+            } else {
+                item.classList.add('accordion-open');
+                content.style.height = content.scrollHeight + 'px';
+            }
+        });
+    });
+    
+    // Optional: Open first accordion by default
+    if (accordionItems.length > 0) {
+        const firstItem = accordionItems[0];
+        const firstContent = firstItem.querySelector('.value__accordion-content');
+        firstItem.classList.add('accordion-open');
+        firstContent.style.height = firstContent.scrollHeight + 'px';
+    }
+}
+
+// Initialize accordion when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    initAccordion();
+});
+
+// Re-initialize accordion after Locomotive Scroll is ready
+if (window.locoScroll) {
+    window.locoScroll.on('call', function(value, way, obj) {
+        if (value === 'accordion-init') {
+            initAccordion();
+        }
+    });
+}
+
+
+
