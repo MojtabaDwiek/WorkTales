@@ -691,3 +691,149 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+// Add this function for vertical expanding cards on mobile
+function initMobileExpandingCards() {
+    console.log('Initializing mobile expanding cards...');
+    
+    const expandingCards = document.querySelectorAll('.expanding-card');
+    const expandingInputs = document.querySelectorAll('.expanding-input');
+    
+    if (window.innerWidth > 568) {
+        // Desktop behavior - use radio inputs normally
+        console.log('Desktop mode - using radio inputs');
+        expandingInputs.forEach(input => {
+            input.style.display = 'none';
+        });
+        return;
+    }
+    
+    // Mobile behavior - vertical layout with click events
+    console.log('Mobile mode - setting up click events');
+    
+    // First, remove all existing event listeners by replacing elements
+    expandingCards.forEach(card => {
+        const newCard = card.cloneNode(true);
+        card.parentNode.replaceChild(newCard, card);
+    });
+    
+    // Hide radio inputs for mobile
+    expandingInputs.forEach(input => {
+        input.style.display = 'none';
+    });
+    
+    // Re-select cards after cloning
+    const refreshedCards = document.querySelectorAll('.expanding-card');
+    console.log('Found cards:', refreshedCards.length);
+    
+    refreshedCards.forEach((card, index) => {
+        console.log('Setting up card', index);
+        
+        card.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Card clicked:', index);
+            
+            const isActive = this.classList.contains('active');
+            
+            // Close all other cards first
+            refreshedCards.forEach(otherCard => {
+                if (otherCard !== this) {
+                    otherCard.classList.remove('active');
+                    // Uncheck corresponding radio input
+                    const inputId = otherCard.getAttribute('for');
+                    if (inputId) {
+                        const input = document.getElementById(inputId);
+                        if (input) {
+                            input.checked = false;
+                            console.log('Unchecked input:', inputId);
+                        }
+                    }
+                }
+            });
+            
+            // Toggle current card
+            if (!isActive) {
+                this.classList.add('active');
+                const inputId = this.getAttribute('for');
+                if (inputId) {
+                    const input = document.getElementById(inputId);
+                    if (input) {
+                        input.checked = true;
+                        console.log('Checked input:', inputId);
+                    }
+                }
+                console.log('Card activated');
+            } else {
+                this.classList.remove('active');
+                const inputId = this.getAttribute('for');
+                if (inputId) {
+                    const input = document.getElementById(inputId);
+                    if (input) {
+                        input.checked = false;
+                        console.log('Unchecked input:', inputId);
+                    }
+                }
+                console.log('Card deactivated');
+            }
+        });
+        
+        // Add hover effect for testing
+        card.style.cursor = 'pointer';
+    });
+    
+    // Close cards when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.expanding-card')) {
+            console.log('Click outside - closing all cards');
+            refreshedCards.forEach(card => {
+                card.classList.remove('active');
+                const inputId = card.getAttribute('for');
+                if (inputId) {
+                    const input = document.getElementById(inputId);
+                    if (input) input.checked = false;
+                }
+            });
+        }
+    });
+    
+    console.log('Mobile expanding cards initialized');
+}
+
+// Test function to check if cards are working
+function testCards() {
+    const cards = document.querySelectorAll('.expanding-card');
+    console.log('Testing cards - total found:', cards.length);
+    
+    cards.forEach((card, index) => {
+        console.log(`Card ${index}:`, {
+            hasClickListener: card.hasAttribute('data-listener'),
+            classList: card.classList,
+            for: card.getAttribute('for')
+        });
+    });
+}
+
+// Initialize with better timing
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded - initializing mobile cards');
+    setTimeout(() => {
+        initMobileExpandingCards();
+        testCards();
+    }, 1000); // Delay to ensure everything is loaded
+});
+
+// Re-initialize on resize with debounce
+let resizeTimeout;
+window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+        console.log('Window resized - reinitializing mobile cards');
+        initMobileExpandingCards();
+    }, 250);
+});
+
+// Also initialize when page fully loads
+window.addEventListener('load', function() {
+    console.log('Page fully loaded - initializing mobile cards');
+    initMobileExpandingCards();
+});
