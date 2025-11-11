@@ -4,6 +4,187 @@
     box-sizing: border-box;
     font-family: gilroy;
 }
+
+/* Bubble Background Animation */
+.bubbles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.bubble {
+  position: absolute;
+  left: var(--bubble-left-offset);
+  bottom: -30%;
+  display: block;
+  width: var(--bubble-radius);
+  height: var(--bubble-radius);
+  border-radius: 50%;
+  animation: float-up var(--bubble-float-duration) var(--bubble-float-delay) ease-in infinite;
+}
+
+.bubble::before {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: hsla(45, 94%, 76%, 0.4);
+  border-radius: inherit;
+  animation: var(--bubble-sway-type) var(--bubble-sway-duration) var(--bubble-sway-delay) ease-in-out alternate infinite;
+}
+
+/* Generate unique properties for each bubble */
+.bubble:nth-child(1) { --bubble-left-offset: 5vw; --bubble-radius: 3vw; --bubble-float-duration: 8s; --bubble-sway-duration: 5s; --bubble-float-delay: 0s; --bubble-sway-delay: 1s; --bubble-sway-type: sway-left-to-right; }
+.bubble:nth-child(2) { --bubble-left-offset: 15vw; --bubble-radius: 2vw; --bubble-float-duration: 10s; --bubble-sway-duration: 4s; --bubble-float-delay: 2s; --bubble-sway-delay: 0s; --bubble-sway-type: sway-right-to-left; }
+.bubble:nth-child(3) { --bubble-left-offset: 25vw; --bubble-radius: 4vw; --bubble-float-duration: 12s; --bubble-sway-duration: 6s; --bubble-float-delay: 1s; --bubble-sway-delay: 3s; --bubble-sway-type: sway-left-to-right; }
+.bubble:nth-child(4) { --bubble-left-offset: 35vw; --bubble-radius: 1.5vw; --bubble-float-duration: 9s; --bubble-sway-duration: 5s; --bubble-float-delay: 3s; --bubble-sway-delay: 2s; --bubble-sway-type: sway-right-to-left; }
+.bubble:nth-child(5) { --bubble-left-offset: 45vw; --bubble-radius: 3.5vw; --bubble-float-duration: 11s; --bubble-sway-duration: 4s; --bubble-float-delay: 0.5s; --bubble-sway-delay: 1.5s; --bubble-sway-type: sway-left-to-right; }
+.bubble:nth-child(6) { --bubble-left-offset: 55vw; --bubble-radius: 2.5vw; --bubble-float-duration: 7s; --bubble-sway-duration: 5s; --bubble-float-delay: 2.5s; --bubble-sway-delay: 0.5s; --bubble-sway-type: sway-right-to-left; }
+.bubble:nth-child(7) { --bubble-left-offset: 65vw; --bubble-radius: 4.5vw; --bubble-float-duration: 13s; --bubble-sway-duration: 6s; --bubble-float-delay: 1.5s; --bubble-sway-delay: 2.5s; --bubble-sway-type: sway-left-to-right; }
+.bubble:nth-child(8) { --bubble-left-offset: 75vw; --bubble-radius: 1.8vw; --bubble-float-duration: 8.5s; --bubble-sway-duration: 4.5s; --bubble-float-delay: 3.5s; --bubble-sway-delay: 1s; --bubble-sway-type: sway-right-to-left; }
+.bubble:nth-child(9) { --bubble-left-offset: 85vw; --bubble-radius: 3.2vw; --bubble-float-duration: 10.5s; --bubble-sway-duration: 5.5s; --bubble-float-delay: 0.8s; --bubble-sway-delay: 3s; --bubble-sway-type: sway-left-to-right; }
+.bubble:nth-child(10) { --bubble-left-offset: 95vw; --bubble-radius: 2.8vw; --bubble-float-duration: 9.5s; --bubble-sway-duration: 4.8s; --bubble-float-delay: 2.2s; --bubble-sway-delay: 0.8s; --bubble-sway-type: sway-right-to-left; }
+.bubble:nth-child(11) { --bubble-left-offset: 10vw; --bubble-radius: 3.8vw; --bubble-float-duration: 11.5s; --bubble-sway-duration: 5.2s; --bubble-float-delay: 1.2s; --bubble-sway-delay: 2.2s; --bubble-sway-type: sway-left-to-right; }
+.bubble:nth-child(12) { --bubble-left-offset: 20vw; --bubble-radius: 1.2vw; --bubble-float-duration: 7.5s; --bubble-sway-duration: 4.2s; --bubble-float-delay: 3.2s; --bubble-sway-delay: 1.2s; --bubble-sway-type: sway-right-to-left; }
+.bubble:nth-child(13) { --bubble-left-offset: 30vw; --bubble-radius: 4.2vw; --bubble-float-duration: 12.5s; --bubble-sway-duration: 6.2s; --bubble-float-delay: 0.3s; --bubble-sway-delay: 2.8s; --bubble-sway-type: sway-left-to-right; }
+.bubble:nth-child(14) { --bubble-left-offset: 40vw; --bubble-radius: 2.2vw; --bubble-float-duration: 8.8s; --bubble-sway-duration: 5.8s; --bubble-float-delay: 2.8s; --bubble-sway-delay: 0.3s; --bubble-sway-type: sway-right-to-left; }
+.bubble:nth-child(15) { --bubble-left-offset: 50vw; --bubble-radius: 3.8vw; --bubble-float-duration: 10.8s; --bubble-sway-duration: 4.8s; --bubble-float-delay: 1.8s; --bubble-sway-delay: 3.5s; --bubble-sway-type: sway-left-to-right; }
+
+/* Keyframe Animations */
+@keyframes float-up {
+  to {
+    transform: translateY(-175vh);
+  }
+}
+
+@keyframes sway-left-to-right {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes sway-right-to-left {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* Update body and main background */
+body {
+  background: #1a1e23;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+#main {
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+}
+
+/* Update all page backgrounds to be transparent */
+#page,
+#page1,
+#page2,
+#page3,
+#page4,
+#page5,
+#page6,
+#page7,
+#contact,
+.value.section,
+.expanding-cards-wrapper,
+.container {
+  background-color: transparent !important;
+  position: relative;
+  z-index: 1;
+}
+
+/* Ensure text content is readable over bubbles */
+#nav,
+#loop h1,
+#page h3,
+#page1 h1, #page1 h3,
+#page2 h1, #page2 h3, #page2 p,
+#page3 h1, #page3 h3, #page3 p,
+#contact-text h1, #contact-text h3,
+.page-content h1, .page-content p,
+.value__accordion-item,
+.value__data,
+.expanding-card,
+.card-body {
+  position: relative;
+  z-index: 2;
+}
+
+/* Make sure navigation and important elements stand out */
+#nav {
+  background-color: rgba(241, 241, 241, 0.9);
+  backdrop-filter: blur(10px);
+}
+
+/* Mobile menu background */
+#mobile-nav-links {
+  background-color: rgba(241, 241, 241, 0.98);
+  backdrop-filter: blur(15px);
+}
+
+/* Card backgrounds with slight transparency */
+.card-body {
+  
+  backdrop-filter: blur(5px);
+}
+
+/* Accordion items with transparency */
+.value__accordion-item {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(5px);
+}
+
+/* Expanding cards background */
+.expanding-card {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Contact buttons with better visibility */
+#contact-buttons button {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(5px);
+}
+
+/* Mobile responsive adjustments for bubbles */
+@media (max-width: 768px) {
+  .bubble {
+    --bubble-radius: 6vw !important;
+  }
+  
+  .bubble:nth-child(n) {
+    --bubble-radius: 6vw !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .bubble {
+    --bubble-radius: 8vw !important;
+  }
+  
+  .bubble:nth-child(n) {
+    --bubble-radius: 8vw !important;
+  }
+}
 html,body{
     height: 100%;
     width: 100%;
@@ -1019,9 +1200,9 @@ h2 {
   height: 470px;
   background: linear-gradient(
     180deg,
-    hsl(210, 70%, 20%) 30%,
-    hsl(210, 70%, 40%) 70%,
-    hsl(210, 70%, 60%) 100%
+    hsl(45, 85%, 50%) 30%,
+hsl(45, 85%, 60%) 70%,
+hsl(45, 85%, 70%) 100%
   );
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
   display: flex;
@@ -1075,7 +1256,7 @@ h2 {
 
 .section__subtitle {
   font-size: 0.9rem;
-  color: hsl(210, 70%, 50%);
+  color: hsl(45, 85%, 50%);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -1089,7 +1270,7 @@ h2 {
 }
 
 .section__title span {
-  color: hsl(210, 70%, 50%);
+  color: hsl(45, 85%, 50%);
   font-weight: 700;
 }
 
@@ -1109,20 +1290,29 @@ h2 {
 }
 
 .value__accordion-item:hover {
-  border-color: hsl(210, 70%, 50%);
+  border-color: hsl(45, 85%, 50%);
   transform: translateY(-2px);
 }
 
 /* Accordion Header */
-.value__accordion-header {
+.value__content--left .value__accordion-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
   gap: 0.875rem;
+  /* Left side icons (default) */
 }
 
-
+/* Accordion Header - Right side icons */
+.value__content--right .value__accordion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  gap: 0.875rem;
+  flex-direction: row-reverse; /* This moves icons to the right side */
+}
 
 .value__accordion-title {
   font-size: 1.1rem;
@@ -1133,10 +1323,10 @@ h2 {
 }
 
 .value__accordion-arrow {
-  background-color: hsl(210, 70%, 95%);
+  background-color: hsl(45, 85%, 95%);
   padding: 6px;
   border-radius: 6px;
-  color: hsl(210, 70%, 50%);
+  color: hsl(45, 85%, 50%);
   transition: 0.3s ease;
   flex-shrink: 0;
 }
@@ -1162,13 +1352,13 @@ h2 {
 
 /* ===== Accordion Open ===== */
 .value__accordion-item.accordion-open {
-  border-color: hsl(210, 70%, 50%);
-  box-shadow: 0 8px 25px hsla(210, 66%, 45%, 0.15);
+  border-color: hsl(45, 85%, 50%);
+  box-shadow: 0 8px 25px hsla(45, 85%, 45%, 0.15);
 }
 
 .accordion-open .value__accordion-icon,
 .accordion-open .value__accordion-arrow {
-  background-color: hsl(210, 70%, 50%);
+  background-color: hsl(45, 85%, 50%);
   color: white;
 }
 
@@ -1217,7 +1407,7 @@ h2 {
 /* Phones */
 @media (max-width: 576px) {
   .value.section {
-    padding: 100px 0 300px; /* ✅ Added bottom padding */
+    padding: 100px 0 300px;
   }
 
   .value__container {
@@ -1237,7 +1427,7 @@ h2 {
   /* Reset both sides completely */
   .value__content--left,
   .value__content--right {
-    all: unset; /* clears all inherited styles */
+    all: unset;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1255,23 +1445,38 @@ h2 {
 
   .value__accordion-item {
     width: 100%;
-    padding: 0.3rem;
+    padding: 1rem; /* Increased padding for better spacing */
     box-sizing: border-box;
   }
 
+  /* Fixed accordion header for mobile */
   .value__accordion-header {
-    justify-content: center;
-    flex-wrap: wrap;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Changed from center to flex-start */
+    text-align: left; /* Changed from center to left */
+    gap: 12px; /* Added consistent gap */
+    width: 100%;
+    flex-wrap: nowrap; /* Changed from wrap to nowrap */
   }
 
   .value__accordion-icon {
     flex-shrink: 0;
+    order: 1; /* Ensure icon comes first */
   }
 
   .value__accordion-title {
-    flex: 1 1 100%;
-    text-align: center;
+    flex: 1;
+    text-align: left; /* Changed from center to left */
+    order: 2; /* Title comes after icon */
+    margin: 0; /* Remove extra margins */
+  }
+
+  .value__accordion-arrow {
+    order: 3; /* Arrow comes last */
+    flex-shrink: 0;
+    padding: 4px;
+    margin-left: auto; /* Push arrow to the right */
   }
 
   .section__title {
@@ -1284,10 +1489,14 @@ h2 {
 
   .value__accordion-description {
     font-size: 0.95rem;
+    text-align: left; /* Ensure description text is aligned properly */
   }
 
-  .value__accordion-arrow { 
-    padding: 4px; 
+  /* Ensure both left and right content have the same icon alignment on mobile */
+  .value__content--left .value__accordion-header,
+  .value__content--right .value__accordion-header {
+    flex-direction: row; /* Reset any row-reverse from desktop */
+    justify-content: flex-start;
   }
 }
 
