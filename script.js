@@ -876,3 +876,35 @@ function initGoldLineAnimation() {
 
 // Initialize
 document.addEventListener('DOMContentLoaded', initGoldLineAnimation);
+
+// Page6 horizontal animations
+function initPage6Animations() {
+    const page6 = document.getElementById('page6');
+    const pageContent = document.querySelector('#page6 .page-content');
+    const pageImage = document.querySelector('.page6-image');
+    
+    if (!page6 || !pageContent || !pageImage) return;
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Enter animation
+                pageContent.classList.add('active');
+                pageImage.classList.add('active');
+            } else {
+                // Exit animation
+                pageContent.classList.remove('active');
+                pageImage.classList.remove('active');
+            }
+        });
+    }, {
+        threshold: 0.3
+    });
+    
+    observer.observe(page6);
+}
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    initPage6Animations();
+});
