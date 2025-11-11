@@ -5,6 +5,62 @@
     font-family: gilroy;
 }
 
+/* Gold highlight for all pressed/focused elements */
+*:focus {
+    outline: 2px solid hsl(45, 85%, 50%) !important;
+    outline-offset: 2px !important;
+}
+
+/* Gold selection highlight */
+::selection {
+    background: hsl(45, 85%, 50%) !important;
+    color: white !important;
+}
+
+::-moz-selection {
+    background: hsl(45, 85%, 50%) !important;
+    color: white !important;
+}
+
+/* Gold focus for specific elements */
+button:focus,
+input:focus,
+textarea:focus,
+select:focus,
+a:focus {
+    outline: 2px solid hsl(45, 85%, 50%) !important;
+    outline-offset: 2px !important;
+}
+
+/* Gold focus for navigation links */
+#nav-links a:focus,
+#mobile-nav-links a:focus {
+    color: hsl(45, 85%, 50%) !important;
+    outline: 2px solid hsl(45, 85%, 50%) !important;
+    outline-offset: 4px !important;
+}
+
+/* Gold focus for contact buttons */
+#contact-buttons button:focus {
+    outline: 2px solid hsl(45, 85%, 50%) !important;
+    outline-offset: 3px !important;
+    background: hsl(45, 85%, 50%) !important;
+    color: white !important;
+}
+
+/* Gold focus for accordion items */
+.value__accordion-item:focus,
+.value__accordion-header:focus {
+    outline: 2px solid hsl(45, 85%, 50%) !important;
+    outline-offset: 2px !important;
+}
+
+/* Gold focus for expanding cards */
+.expanding-card:focus {
+    outline: 2px solid hsl(45, 85%, 50%) !important;
+    outline-offset: 3px !important;
+}
+
 /* Bubble Background Animation */
 .bubbles {
   position: fixed;
@@ -144,7 +200,6 @@ body {
 
 /* Card backgrounds with slight transparency */
 .card-body {
-  
   backdrop-filter: blur(5px);
 }
 
@@ -185,6 +240,7 @@ body {
     --bubble-radius: 8vw !important;
   }
 }
+
 html,body{
     height: 100%;
     width: 100%;
@@ -229,9 +285,91 @@ html,body{
     position: relative;
     height: 100vh;
     width: 100vw;
-    background-color: #f1f1f1;
+    background-color: transparent;
     padding: 0;
     margin: 0;
+    overflow: hidden;
+}
+
+/* Simple Gold Horizontal Line */
+.gold-line {
+    position: absolute;
+    top: 13.2%;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        hsl(45, 85%, 50%) 20%, 
+        hsl(45, 85%, 60%) 50%, 
+        hsl(45, 85%, 50%) 80%, 
+        transparent 100%);
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: all 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.gold-line.active {
+    opacity: 1;
+    transform: scaleX(1);
+}
+
+/* Gold Light that expands from center to bottom but starts from 13.2% */
+.gold-light {
+    position: absolute;
+    top: 13.2%; /* Start from the line position */
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: linear-gradient(to bottom, 
+        hsl(45, 85%, 50%) 0%, 
+        hsla(45, 85%, 50%, 0.8) 10%,
+        hsla(45, 85%, 50%, 0.4) 30%,
+        hsla(45, 85%, 50%, 0.1) 60%,
+        transparent 90%);
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); /* Ensures it only goes downward */
+}
+
+.gold-light.active {
+    opacity: 1;
+    width: 50%;
+    height: 86.8%; /* Only fill space below 13.2% */
+}
+
+/* Ensure page content stays above the line */
+#page5 .page-content {
+    position: relative;
+    z-index: 2;
+}
+
+/* Fade-in animation for page5 text */
+#page5 .page-content h1,
+#page5 .page-content p {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease-out;
+}
+
+#page5 .page-content h1 {
+    transition-delay: 0.2s;
+}
+
+#page5 .page-content p:nth-child(2) {
+    transition-delay: 0.4s;
+}
+
+#page5 .page-content p:nth-child(3) {
+    transition-delay: 0.6s;
+}
+
+#page5 .page-content.visible h1,
+#page5 .page-content.visible p {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 #page7{
@@ -1499,9 +1637,6 @@ hsl(45, 85%, 70%) 100%
     justify-content: flex-start;
   }
 }
-
-
-
 
 /* Slide in from the left */
 .slide-left {

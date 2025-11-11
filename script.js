@@ -837,3 +837,42 @@ window.addEventListener('load', function() {
     console.log('Page fully loaded - initializing mobile cards');
     initMobileExpandingCards();
 });
+
+function initGoldLineAnimation() {
+    const page5 = document.getElementById('page5');
+    const goldLine = document.querySelector('.gold-line');
+    const goldLight = document.querySelector('.gold-light');
+    const pageContent = document.querySelector('#page5 .page-content');
+    
+    if (!page5 || !goldLine || !goldLight || !pageContent) return;
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Line expands from center
+                goldLine.classList.add('active');
+                // Light expands downward with slight delay
+                setTimeout(() => {
+                    goldLight.classList.add('active');
+                }, 100);
+                // Text fades in after light
+                setTimeout(() => {
+                    pageContent.classList.add('visible');
+                }, 300);
+            } else {
+                // Line, light and text retract
+                goldLine.classList.remove('active');
+                goldLight.classList.remove('active');
+                pageContent.classList.remove('visible');
+            }
+        });
+    }, {
+        threshold: 0.3,
+        rootMargin: '0px 0px -100px 0px'
+    });
+    
+    observer.observe(page5);
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', initGoldLineAnimation);
